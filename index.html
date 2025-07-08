@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Acceso a mi VSCO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    input[type="text"] {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    input[type="submit"] {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .thank-you {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>¿Cuál es tu Instagram?</h2>
+    <form id="vscoForm">
+      <input type="text" name="instagram" placeholder="@tucuenta" required><br>
+      <input type="submit" value="Ver VSCO">
+    </form>
+    <div class="thank-you">
+      <p>Gracias, ya puedes ver mi VSCO 👀</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('vscoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const insta = this.instagram.value;
+      fetch('https://formspree.io/f/mgegnpjp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ instagram: insta })
+      }).then(response => {
+        if (response.ok) {
+          document.querySelector('form').style.display = 'none';
+          document.querySelector('.thank-you').style.display = 'block';
+          setTimeout(() => {
+            window.location.href = 'https://vsco.co/hugoo-d';
+          }, 2000);
+        } else {
+          alert('Hubo un error. Intenta de nuevo.');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
